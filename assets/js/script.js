@@ -1,6 +1,6 @@
 var today = moment(); //time
-$("#currentDay").text(today.format("MMM Do, YYYY, H:mm:ss a"));
-var currentHour = today.format("H");
+$("#currentDay").text(today.format("MMM Do, YYYY, H:mm "));
+var currentHour = Number(today.format("H"));
 
 //local storage
 var btnsaveEl = document.querySelectorAll(".saveBtn");
@@ -8,14 +8,16 @@ var savedTaskEl = document.querySelectorAll(".description");
 
 console.log(currentHour);
 savedTaskEl.forEach(function (txtarea) {
-  var hour = txtarea.parentNode.dataset["hour"];
+  var hour = Number(txtarea.parentNode.dataset["hour"]);
   txtarea.value = localStorage.getItem(hour);
-  var timeClass = "past";
+  var timeClass = "";
 
-  if (hour > currentHour) {
-    timeClass = "future";
+  if (hour < currentHour) {
+    timeClass = "past";
   } else if (hour == currentHour) {
     timeClass = "present";
+  } else if (hour > currentHour) {
+    timeClass = "future";
   }
 
   txtarea.parentNode.classList.add(timeClass);
